@@ -35,7 +35,7 @@
 
 Очки здоровья можно потерять, при получении урона или же восполнить можно при помощи покупки в магазине/прокачкой навыков
 
-![Image alt](https://github.com/blob/main/IMG_20240326_003655.jpg)
+![Image alt](https://github.com/TemKost/AD-in-GameDev-lab2/blob/main/IMG_20240326_003655.jpg)
 
 ```py
 
