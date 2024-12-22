@@ -42,8 +42,61 @@
 ## Задание 2
 ###  С помощью скрипта на языке Python заполните google-таблицу данными, описывающими выбранную игровую переменную в игре “СПАСТИ РТФ:Выживание”. Средствами google-sheets визуализируйте данные в google-таблице (постройте график / диаграмму и пр.) для наглядного представления выбранной игровой величины. Опишите характер изменения этой величины, опишите недостатки в реализации этой величины (например, в игре может произойти условие наступления эксплойта) и предложите до 3-х вариантов модификации условий работы с переменной, чтобы сделать игровой опыт лучше.
 
+https://docs.google.com/spreadsheets/d/1ifU3RndTpyBalDr_yfdVHkoCAQodYp9CicQFVVw5sTw/edit?gid=0#gid=0
+
+При получении урона отнимается 10 или 20 здоровья, при этом не может стать меньше нуля
+Количество жизней можно полностью восплнить при покупке за валюту или при прокачке навыков
+
 ```py
 
+from random import random, Random
+
+import numpy as np
+import gspread
+gc = gspread.service_account(filename='unitydatasciense-445418-2398f2d9be3c.json')
+sh = gc.open("UnitySheets")
+mon = list(range(1,11))
+hp = 30
+i = 0
+while i <= len(mon):
+    j = np.random.randint(1,4)
+    i += 1
+    if j == 1:
+        dmg = 10
+        hp = hp - dmg
+        if hp <= 0:
+            hp = 0
+            tempHP = str(hp)
+            sh.sheet1.update(('A' + str(i)), str(j))
+            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            print(tempHP)
+            continue
+        else:
+            tempHP = str(hp)
+            sh.sheet1.update(('A' + str(i)), str(j))
+            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            print(tempHP)
+    if j == 2:
+        dmg = 20
+        hp = hp - dmg
+        if hp <= 0:
+            hp = 0
+            tempHP = str(hp)
+            sh.sheet1.update(('A' + str(i)), str(j))
+            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            print(tempHP)
+            continue
+        else:
+            tempHP = str(hp)
+            sh.sheet1.update(('A' + str(i)), str(j))
+            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            print(tempHP)
+    if j == 3:
+        hp = 30
+        tempHP = str(hp)
+        sh.sheet1.update(('A' + str(i)), str(j))
+        sh.sheet1.update(('B' + str(i)), str(tempHP))
+        print(tempHP)
 
 
 ```
