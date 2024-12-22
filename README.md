@@ -55,6 +55,7 @@ import numpy as np
 import gspread
 gc = gspread.service_account(filename='unitydatasciense-445418-2398f2d9be3c.json')
 sh = gc.open("UnitySheets")
+price = np.random.randint(2000, 10000, 11)
 mon = list(range(1,11))
 hp = 30
 i = 0
@@ -67,14 +68,16 @@ while i <= len(mon):
         if hp <= 0:
             hp = 0
             tempHP = str(hp)
-            sh.sheet1.update(('A' + str(i)), str(j))
-            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            sh.sheet1.update(('A' + str(i)), str(i))
+            sh.sheet1.update(('B' + str(i)), str(j))
+            sh.sheet1.update(('C' + str(i)), str(tempHP))
             print(tempHP)
             continue
         else:
             tempHP = str(hp)
-            sh.sheet1.update(('A' + str(i)), str(j))
-            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            sh.sheet1.update(('A' + str(i)), str(i))
+            sh.sheet1.update(('B' + str(i)), str(j))
+            sh.sheet1.update(('C' + str(i)), str(tempHP))
             print(tempHP)
     if j == 2:
         dmg = 20
@@ -82,27 +85,121 @@ while i <= len(mon):
         if hp <= 0:
             hp = 0
             tempHP = str(hp)
-            sh.sheet1.update(('A' + str(i)), str(j))
-            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            sh.sheet1.update(('A' + str(i)), str(i))
+            sh.sheet1.update(('B' + str(i)), str(j))
+            sh.sheet1.update(('C' + str(i)), str(tempHP))
             print(tempHP)
             continue
         else:
             tempHP = str(hp)
-            sh.sheet1.update(('A' + str(i)), str(j))
-            sh.sheet1.update(('B' + str(i)), str(tempHP))
+            sh.sheet1.update(('A' + str(i)), str(i))
+            sh.sheet1.update(('B' + str(i)), str(j))
+            sh.sheet1.update(('C' + str(i)), str(tempHP))
             print(tempHP)
     if j == 3:
         hp = 30
         tempHP = str(hp)
-        sh.sheet1.update(('A' + str(i)), str(j))
-        sh.sheet1.update(('B' + str(i)), str(tempHP))
+        sh.sheet1.update(('A' + str(i)), str(i))
+        sh.sheet1.update(('B' + str(i)), str(j))
+        sh.sheet1.update(('C' + str(i)), str(tempHP))
         print(tempHP)
-
 
 ```
 
 ## Задание 3
 ### Настройте на сцене Unity воспроизведение звуковых файлов, описывающих динамику изменения выбранной переменной. Например, если выбрано здоровье главного персонажа вы можете выводить сообщения, связанные с его состоянием.
 
-https://github.com/TemKost/ADinGamedev
+```c#
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+using SimpleJSON;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    public AudioClip goodSpeak;
+    public AudioClip normalSpeak;
+    public AudioClip badSpeak;
+    private AudioSource selectAudio;
+    private Dictionary<string, float> dataSet = new Dictionary<string, float>();
+    private bool statusStart = false;
+    private int i = 1;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(GoogleSheets());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (dataSet["Mon_" + i.ToString()] == 30 & statusStart == false & i != dataSet.Count)
+        {
+            StartCoroutine(PlaySelectAudioGood());
+            Debug.Log(dataSet["Mon_" + i.ToString()]);
+        }
+
+        if (dataSet["Mon_" + i.ToString()] == 20 & statusStart == false & i != dataSet.Count)
+        {
+            StartCoroutine(PlaySelectAudioNormal());
+            Debug.Log(dataSet["Mon_" + i.ToString()]);
+        }
+
+        if (dataSet["Mon_" + i.ToString()] <= 10 & statusStart == false & i != dataSet.Count)
+        {
+            StartCoroutine(PlaySelectAudioBad());
+            Debug.Log(dataSet["Mon_" + i.ToString()]);
+        }
+    }
+
+    IEnumerator GoogleSheets()
+    {
+        UnityWebRequest curentResp = UnityWebRequest.Get("https://sheets.googleapis.com/v4/spreadsheets/1ifU3RndTpyBalDr_yfdVHkoCAQodYp9CicQFVVw5sTw/values/Лист1?key=AIzaSyDo02p5v_h3I7wtX_KMxvBwwtdBj3HBAfs");
+        yield return curentResp.SendWebRequest();
+        string rawResp = curentResp.downloadHandler.text;
+        var rawJson = JSON.Parse(rawResp);
+        foreach (var itemRawJson in rawJson["values"])
+        {
+            var parseJson = JSON.Parse(itemRawJson.ToString());
+            var selectRow = parseJson[0].AsStringList;
+            dataSet.Add(("Mon_" + selectRow[0]), float.Parse(selectRow[2]));
+        }
+    }
+
+    IEnumerator PlaySelectAudioGood()
+    {
+        statusStart = true;
+        selectAudio = GetComponent<AudioSource>();
+        selectAudio.clip = goodSpeak;
+        selectAudio.Play();
+        yield return new WaitForSeconds(3);
+        statusStart = false;
+        i++;
+    }
+    IEnumerator PlaySelectAudioNormal()
+    {
+        statusStart = true;
+        selectAudio = GetComponent<AudioSource>();
+        selectAudio.clip = normalSpeak;
+        selectAudio.Play();
+        yield return new WaitForSeconds(3);
+        statusStart = false;
+        i++;
+    }
+    IEnumerator PlaySelectAudioBad()
+    {
+        statusStart = true;
+        selectAudio = GetComponent<AudioSource>();
+        selectAudio.clip = badSpeak;
+        selectAudio.Play();
+        yield return new WaitForSeconds(4);
+        statusStart = false;
+        i++;
+    }
+}
+
+```
 
