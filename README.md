@@ -35,45 +35,16 @@
 
 Очки здоровья можно потерять, при получении урона или же восполнить можно при помощи покупки в магазине/прокачкой навыков
 
-![Image alt](https://github.com/TemKost/AD-in-GameDev-lab2/blob/main/IMG_20240326_003655.jpg)
-
-```py
-
-In [ ]:
-print('Hello World')
-
-Hello World
-
-```
-
+![Image alt](https://github.com/TemKost/AD-in-GameDev-lab2/blob/main/HP%20rtf.png)
 
 
 
 ## Задание 2
 ###  С помощью скрипта на языке Python заполните google-таблицу данными, описывающими выбранную игровую переменную в игре “СПАСТИ РТФ:Выживание”. Средствами google-sheets визуализируйте данные в google-таблице (постройте график / диаграмму и пр.) для наглядного представления выбранной игровой величины. Опишите характер изменения этой величины, опишите недостатки в реализации этой величины (например, в игре может произойти условие наступления эксплойта) и предложите до 3-х вариантов модификации условий работы с переменной, чтобы сделать игровой опыт лучше.
 
-```c#
+```py
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class HelloWorld: MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        Console.Write("Hello World");
-        Debug.Log("Hello World");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
 
 ```
 
